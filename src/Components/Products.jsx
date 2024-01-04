@@ -1,14 +1,14 @@
-import React from 'react'
-import { products } from '../products'
+import {useContext} from 'react'
+import { ShopContext } from '../App';
 
-export default function Products({inCart, addProductToCart, getProductQuantity}) {
+export default function Products() {
+    const {products, getProductQuantity, inCart, addProductToCart} = useContext(ShopContext);
   return (
     <div id="products">
         <h1>Products</h1>
         <p>{products.length} products displayed.</p>
         <ul>
             {products.map((product) => {
-                console.log(product.id);
                 const quantity = getProductQuantity(product.id);
                 return <li 
                             key={product.id}

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { products } from '../products';
+import { useContext } from 'react';
+import { ShopContext } from '../App';
 
-export default function Cart({cart, changeQuantity, removeProductFromCart}) {
+export default function Cart() {
+    const {cart, products, changeQuantity, removeProductFromCart} = useContext(ShopContext);
 
     const totalPrice = cart.products.reduce((sum, product) => {
         const productPrice = products.find(item => item.id === product.id).price;
@@ -42,7 +43,7 @@ export default function Cart({cart, changeQuantity, removeProductFromCart}) {
                     </h3>
                 </div>
                 <div className={"cart-product-actions"}>
-                    <input type="number" value={item.quantity} onChange={(e) => changeQuantity(product.id, e.target.value)} className={"cart-product-quantity"}/>
+                    <input type="number" value={item.quantity} onChange={(e) => changeQuantity(product.id, Number(e.target.value))} className={"cart-product-quantity"}/>
                     <button 
                         className={"cart-product-remove"}
                         onClick={() => removeProductFromCart(product.id)}
