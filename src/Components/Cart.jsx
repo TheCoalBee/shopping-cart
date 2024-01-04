@@ -43,7 +43,7 @@ export default function Cart() {
                     </h3>
                 </div>
                 <div className={"cart-product-actions"}>
-                    <input type="number" value={item.quantity} onChange={(e) => changeQuantity(product.id, Number(e.target.value))} className={"cart-product-quantity"}/>
+                    <input type="number" value={item.quantity} onChange={(e) => changeQuantity(product.id, e.target.value)} className={"cart-product-quantity"}/>
                     <button 
                         className={"cart-product-remove"}
                         onClick={() => removeProductFromCart(product.id)}

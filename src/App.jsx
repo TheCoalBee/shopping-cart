@@ -46,7 +46,7 @@ function App() {
 
   function changeQuantity(productId, newQuantity) {
     const tempCart = cart;
-    tempCart.changeQuantity(productId, newQuantity);
+    tempCart.changeQuantity(productId, Number(newQuantity));
     setCart({
       ...cart,
       products: tempCart.products,
