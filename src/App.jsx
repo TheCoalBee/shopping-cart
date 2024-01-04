@@ -4,9 +4,13 @@ import Cart from './Components/Cart';
 import Products from './Components/Products';
 import localforage from 'localforage';
 import { cart as cartObj } from './cart';
+import { Routes, Route, BrowserRouter, Link } from 'react-router-dom';
 
 function App() {
   const [cart, setCart] = useState(cartObj);
+
+  const totalItems = cart.products.reduce((sum, product) => 
+        sum + Number(product.quantity), 0);
 
   {useEffect(() => {
     async function getCart() {
@@ -47,22 +51,36 @@ function App() {
     })
   }
 
+  function handleGetProductQuantity(productId) {
+    const tempCart = cart;
+    const index = tempCart.getIndex(productId);
+    return (index > -1) ? tempCart.products[index].quantity : 0;
+  }
+
   function handleInCart(productId) {
     return cart.inCart(productId);
   }
 
   return (
-    <>
-      <Products 
-        inCart={handleInCart}
-        addProductToCart={handleAddProductToCart}
-      />
-      <Cart 
-        cart={cart} 
-        changeQuantity={handleChangeQuantity} removeProductFromCart={handleRemoveProductFromCart}
-      />
-    </>
+    <BrowserRouter>
+      <Link to="/cart">Cart {totalItems > 0 ? `(${totalItems})` : ""}</Link>
+      <Link to="/products">Products</Link>
+      <Routes>
+        <Route>
+          <Route path="cart" element={<Cart 
+            cart={cart} 
+            changeQuantity={handleChangeQuantity} removeProductFromCart={handleRemoveProductFromCart}
+          />}/>
+          <Route path="products" element={<Products 
+            inCart={handleInCart}
+            addProductToCart={handleAddProductToCart}
+            getProductQuantity={handleGetProductQuantity}
+          />}/>
+        </Route>
+      </Routes>
+
+    </BrowserRouter>
   )
 }
 
-export default App
+export default App;
